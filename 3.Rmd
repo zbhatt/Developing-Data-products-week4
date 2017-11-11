@@ -1,0 +1,49 @@
+---
+title: "Developing Data Products Week4"
+author: "Zankhana Bhatt"
+date: "November 11, 2017"
+output:
+  ioslides_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Shiny Presentation
+
+This R Markdown presentation is made interactive using Shiny. Please follow the links for the ui.r and server.r files on github
+
+https://github.com/zbhatt/Developing-Data-products-week4/tree/master
+
+
+
+## Slide with R Output
+
+```{r}
+summary(mtcars)
+```
+
+## Slide with Plot
+
+
+```{r}
+ui <- basicPage(
+  plotOutput("plot1", click = "plot_click"),
+  verbatimTextOutput("info")
+)
+
+server <- function(input, output) {
+  output$plot1 <- renderPlot({
+    plot(mtcars$wt, mtcars$mpg)
+  })
+
+  output$info <- renderText({
+    paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
+  })
+}
+
+shinyApp(ui, server)
+```
+
